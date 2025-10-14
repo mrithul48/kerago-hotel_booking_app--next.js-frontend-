@@ -7,7 +7,7 @@ export const hotelService = {
 
     //fetch hotel
     async getAll(){
-        const res = await api.get("v1//hotels");
+        const res = await api.get("v1/hotels");
         return res.data
     },
     async getById(id:number|string){
