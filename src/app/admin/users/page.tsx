@@ -22,7 +22,7 @@ const AdminUserControl = () => {
     email: "",
     password: "",
     phone: "",
-    role: "",
+    role: "User",
   });
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,7 +52,7 @@ const AdminUserControl = () => {
         userId: Math.max(...users.map(u => u.userId || 0)) + 1,
       };
       setUsers([...users, newUser]);
-      setFormData({ userId: undefined, username: "", email: "", password: "", phone: "", role: "" });
+      setFormData({ userId: undefined, username: "", email: "", password: "", phone: "", role: "User" });
       setShowForm(false);
       loadUsers();
     } catch (err) {
@@ -291,11 +291,11 @@ const AdminUserControl = () => {
                       <td className="px-6 py-4 text-sm text-gray-600">{user.phone}</td>
                       <td className="px-6 py-4 text-sm">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                          user.role === "ROLE_ADMIN" 
+                          user.role === "ADMIN" 
                             ? "bg-purple-100 text-purple-700" 
                             : "bg-blue-100 text-blue-700"
                         }`}>
-                          {user.role === "ROLE_ADMIN" ? "Admin" : "User"}
+                          {user.role === "ADMIN" ? "Admin" : "User"}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right">
