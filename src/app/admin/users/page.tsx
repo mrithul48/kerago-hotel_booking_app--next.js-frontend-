@@ -22,7 +22,7 @@ const AdminUserControl = () => {
     email: "",
     password: "",
     phone: "",
-    role: "USER",
+    role: "",
   });
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,7 +52,7 @@ const AdminUserControl = () => {
         userId: Math.max(...users.map(u => u.userId || 0)) + 1,
       };
       setUsers([...users, newUser]);
-      setFormData({ userId: undefined, username: "", email: "", password: "", phone: "", role: "USER" });
+      setFormData({ userId: undefined, username: "", email: "", password: "", phone: "", role: "" });
       setShowForm(false);
       loadUsers();
     } catch (err) {
