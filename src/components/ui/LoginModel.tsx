@@ -1,0 +1,131 @@
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { authService } from "@/service/authService";
+import { useRouter } from "next/navigation";
+
+interface LoginResponse {
+  token: string;
+  role: "ROLE_ADMIN" | "ROLE_USER";
+}
+
+interface LoginProps {
+  onOpenRegister: () => void;
+  onClose: () => void;
+}
+
+export default function Login({ onOpenRegister, onClose }: LoginProps) {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPass, setShowPass] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("role");
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const res: LoginResponse = await authService.login(username, password);
+
+      // Store tokens
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("role", res.role);
+
+      onClose(); // Close modal
+
+      // Redirect based on role
+      if (res.role === "ROLE_ADMIN") {
+        router.replace("/admin/dashboard");
+      } else {
+        router.replace("/client/");
+      }
+    } catch (err: unknown) {
+      setError("Invalid username or password. Please try again.");
+      console.log(err);
+      
+    }
+  };
+
+  return (
+    <div className="bg-slate-900 text-white p-8 rounded-2xl shadow-lg w-[400px] relative">
+      {/* Close Button */}
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl font-bold transition-colors"
+        aria-label="Close"
+      >
+        ✖
+      </button>
+
+      <h2 className="text-2xl font-bold text-center mb-2">Welcome Back</h2>
+      <p className="text-gray-400 text-center mb-6">
+        Login to continue booking hotels
+      </p>
+
+      <form onSubmit={handleLogin} className="space-y-4">
+        <div>
+          <label className="block text-sm text-gray-300">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="mt-1 w-full rounded-md border border-gray-600 bg-slate-800 px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+
+        <div className="relative">
+          <label className="block text-sm text-gray-300">Password</label>
+          <input
+            type={showPass ? "text" : "password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1 w-full rounded-md border border-gray-600 bg-slate-800 px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            placeholder="Enter your password"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPass((prev) => !prev)}
+            className="absolute right-3 top-9 text-gray-400 hover:text-gray-300 transition-colors"
+            aria-label={showPass ? "Hide password" : "Show password"}
+          >
+            {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        </div>
+
+        {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-md font-semibold transition-colors"
+        >
+          Login
+        </button>
+      </form>
+
+      <p className="text-center text-gray-300 mt-6">
+        Don&apos;t have an account?{" "}
+        <button
+          type="button"
+          onClick={onOpenRegister}
+          className="text-blue-400 hover:underline font-semibold"
+        >
+          Register
+        </button>
+      </p>
+    </div>
+  );
+}
