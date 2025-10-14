@@ -11,7 +11,7 @@ export const hotelService = {
         return res.data
     },
     async getById(id:number|string){
-        const res = await api.get(`v1//hotels/${id}`);
+        const res = await api.get(`v1/hotels/${id}`);
         return res.data
     },
     async getByCategory(category:string){
