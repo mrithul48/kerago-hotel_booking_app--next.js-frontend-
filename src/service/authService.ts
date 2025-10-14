@@ -5,7 +5,7 @@ import { api } from "@/lib/api";
 export const authService = {
   //login
   async login(username: string, password: string) {
-    const res = await api.post("/auth/login", { username, password });
+    const res = await api.post("v1/auth/login", { username, password });
    
     
     
@@ -45,7 +45,7 @@ export const authService = {
   //   return res.data;
   // },
   async register(userRegister:RegisterForm){
-    const res = await api.post("/users",userRegister)
+    const res = await api.post("v1/users",userRegister)
     return res.data
   }
 };

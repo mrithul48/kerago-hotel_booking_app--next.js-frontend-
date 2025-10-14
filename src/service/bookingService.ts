@@ -5,11 +5,11 @@ import { api } from "@/lib/api";
 export const bookingService = {
   async booking( bookingRequest: BookingPayload){
 
-        const res = await api.post("/booking",bookingRequest)
+        const res = await api.post("v1/booking",bookingRequest)
         return res.data
     },
     async getAll(){
-      const res = await api.get("/booking")
+      const res = await api.get("v1/booking")
       return res.data
     },
     async bookingCancel(bookingId:number){
@@ -19,11 +19,11 @@ export const bookingService = {
           window.location.href = "/auth/login";
           return;
         }
-      const res = await api.put(`booking/cancel/${bookingId}`)
+      const res = await api.put(`v1/booking/cancel/${bookingId}`)
       return res.data
     },
     async bookingById(){
-      const res = await api.get("/booking/my");
+      const res = await api.get("v1/booking/my");
       return res.data;
     }
 }
