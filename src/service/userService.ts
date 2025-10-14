@@ -8,7 +8,7 @@ export const userService = {
         return res.data
     },
     async getAll(){
-        const res = await api.get("v1//users");
+        const res = await api.get("v1/users");
             return res.data
         
     },
