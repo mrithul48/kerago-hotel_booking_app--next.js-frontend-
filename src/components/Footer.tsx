@@ -1,6 +1,5 @@
 "use client";
 
-import { Hotel } from 'lucide-react';
 import React from 'react';
 
 const Footer = () => {
