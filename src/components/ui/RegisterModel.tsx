@@ -42,12 +42,12 @@ export default function Register({ onClose }: RegisterProps) {
   };
 
   return (
-    <div className="bg-slate-900 text-white p-8 rounded-2xl shadow-lg w-[400px] relative">
+    <div className="bg-[#EEEEEE] text-white p-5  rounded-2xl shadow-lg  relative">
       {/* Close Button */}
       <button
         type="button"
         onClick={onClose}
-        className="absolute top-3 right-3 text-gray-400 hover:text-white text-xl font-bold transition-colors"
+        className="absolute top-3 right-5 text-gray-400 hover:text-black cursor-pointer text-xl font-bold transition-colors"
         aria-label="Close"
       >
         ✖
@@ -65,86 +65,96 @@ export default function Register({ onClose }: RegisterProps) {
           </button>
         </div>
       ) : (
-        <>
-          <h2 className="text-2xl font-bold text-center mb-2">Create Account</h2>
-          <p className="text-gray-400 text-center mb-6">
+        <div className="sm:h-[350px]  sm:w-[500px] w-[300px]">
+          <h2 className="text-2xl text-black font-bold text-center mb-1">Create Account</h2>
+          <p className="text-gray-700 sm:text-[13px] text-[8px] text-center mb-6">
             Join Kerago and start booking amazing hotels
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm text-gray-300">Username</label>
-              <input
-                type="text"
-                name="username"
-                value={userRegister.username}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-md border border-gray-600 bg-slate-800 px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
+
+            <div className="grid sm:grid-cols-2 grid-col-1 gap-2 ">
+              <div>
+                <label className="block text-sm text-gray-700">Username</label>
+                <input
+                  type="text"
+                  name="username"
+                  value={userRegister.username}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-md text-[13px] border-gray-600 bg-gray-300 px-3 py-2 text-black focus:ring-1 focus:ring-gray-500 focus:outline-none"
+                  required
+                  placeholder="enter your name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-gray-700">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={userRegister.email}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-md text-[13px] border-gray-600 bg-gray-300 px-3 py-2 text-black focus:ring-1 focus:ring-gray-500 focus:outline-none"
+                  required
+                  placeholder="enter your mail"
+                />
+              </div>
+
             </div>
 
-            <div>
-              <label className="block text-sm text-gray-300">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={userRegister.email}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-md border border-gray-600 bg-slate-800 px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-            </div>
+            <div className="grid sm:grid-cols-2 grid-col-1 gap-2 mb-8">
+              <div>
+                <label className="block text-sm text-gray-700">Phone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={userRegister.phone}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-md text-[13px] border-gray-600 bg-gray-300 px-3 py-2 text-black focus:ring-1 focus:ring-gray-500 focus:outline-none"
+                  required
+                  placeholder="enter your mobile number"
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm text-gray-300">Phone</label>
-              <input
-                type="tel"
-                name="phone"
-                value={userRegister.phone}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-md border border-gray-600 bg-slate-800 px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-            </div>
-
-            <div className="relative">
-              <label className="block text-sm text-gray-300">Password</label>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={userRegister.password}
-                onChange={handleChange}
-                className="mt-1 w-full rounded-md border border-gray-600 bg-slate-800 px-3 py-2 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-9 text-gray-400"
-              >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
+              <div className="relative">
+                <label className="block text-sm text-gray-700">Password</label>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={userRegister.password}
+                  onChange={handleChange}
+                  className="mt-1 w-full rounded-md text-[13px] border-gray-600 bg-gray-300 px-3 py-2 text-black focus:ring-1 focus:ring-gray-500 focus:outline-none"
+                  required
+                  placeholder="enter your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-9 text-gray-500 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-md font-semibold transition-colors"
+              className="w-full cursor-pointer bg-[#777C6D] hover:bg-[#444640] py-2 rounded-md font-semibold transition-colors"
             >
               Create Account
             </button>
           </form>
 
-          <p className="text-center text-gray-300 mt-6">
+          <p className="text-center text-gray-700 mt-6 text-[13px]">
             Already have an account?{" "}
             <button
               onClick={onClose}
-              className="text-blue-400 hover:underline font-semibold"
+              className="text-blue-900 hover:underline font-semibold cursor-pointer"
             >
               Login
             </button>
           </p>
-        </>
+        </div>
       )}
     </div>
   );

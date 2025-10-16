@@ -14,7 +14,7 @@ export default function AuthModal() {
 
   return (
     <div
-      className="fixed backdrop-blur-sm flex items-center justify-center z-50"
+      className="z-50"
       onClick={() => setOpenModal(null)} // close modal on backdrop click
     >
       <div onClick={(e) => e.stopPropagation()}>
