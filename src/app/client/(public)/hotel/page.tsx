@@ -16,11 +16,8 @@ useEffect(() => {
 
   return (
 
-    <div>
-      
-    
+    <div className="min-h-80">
       <HotelCard hotelData={hotels}/>
-      
     </div>
 
   )

@@ -7,7 +7,10 @@ const PartnersPage = () => {
   return (
     <div>
       <LandingHeader/>
-        <PartnersSection/>
+      <div className='py-10'>
+  <PartnersSection />
+      </div>
+      
         <Footer/>
     </div>
   )

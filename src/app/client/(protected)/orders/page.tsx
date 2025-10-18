@@ -6,7 +6,6 @@ import {
   MapPin,
   CheckCircle,
   Clock,
-  DollarSign,
   BedDouble,
   X,
 } from "lucide-react";
@@ -112,24 +111,21 @@ useEffect(() => {
   }
 
   return (
-    <div className="min-h-screen  py-8 px-4 sm:px-6 lg:px-8 pt-20">
+    <div className="     pt-20">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-black mb-2">
             Your Bookings
           </h1>
-          <p className="text-gray-600">
-            Manage and view your hotel reservations
-          </p>
         </div>
 
         {bookings.map((booking) => (
           <div
             key={booking.bookingId}
-            className="bg-white rounded-2xl shadow-xl overflow-hidden mb-8 border border-gray-200 hover:shadow-2xl transition-all duration-300"
+            className=" rounded-[5px] overflow-hidden mb-8 border border-gray-400 "
           >
             {/* Header */}
-            <div className="bg-[#146785] px-6 py-4 flex items-center justify-between">
+            <div className="bg-[#777C6D] px-2 py-2 flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <MapPin className="w-3 h-3 text-white" />
                 <h2 className=" font-bold text-white">
@@ -137,9 +133,9 @@ useEffect(() => {
                 </h2>
               </div>
               <div
-                className={`px-4 py-2 rounded-full border-2 ${getStatusColor(
+                className={`px-4 py-2 rounded-[5px] ${getStatusColor(
                   booking.status
-                )} font-semibold text-sm flex items-center space-x-2`}
+                )} font-semibold text-[10px] flex items-center space-x-2`}
               >
                 <CheckCircle className="w-4 h-4" />
                 <span>{booking.status}</span>
@@ -151,7 +147,7 @@ useEffect(() => {
               {/* Check-in / Check-out / Duration */}
               <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                 <div className="flex items-center space-x-2 mb-2">
-                  <Calendar className="w-5 h-5 text-[#146785]" />
+                  <Calendar className="w-5 h-5 text-[#777C6D]" />
                   <span className="font-bold text-gray-700">Check-in</span>
                 </div>
                 <p className="text-[12px] text-gray-900">
@@ -159,7 +155,7 @@ useEffect(() => {
                 </p>
 
                 <div className="flex items-center space-x-2 mt-4 mb-2">
-                  <Calendar className="w-5 h-5 text-[#146785]" />
+                  <Calendar className="w-5 h-5 text-[#777C6D]" />
                   <span className="font-bold text-gray-700">Check-out</span>
                 </div>
                 <p className="text-[12px] text-gray-900">
@@ -167,7 +163,7 @@ useEffect(() => {
                 </p>
 
                 <div className="flex items-center space-x-2 mt-4">
-                  <Clock className="w-5 h-5 text-[#146785]" />
+                  <Clock className="w-5 h-5 text-[#777C6D]" />
                   <span className="font-bold text-gray-700">Duration</span>
                 </div>
                 <p className="text-[12px] text-gray-900">
@@ -181,7 +177,7 @@ useEffect(() => {
               {/* Guests */}
               <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                 <div className="flex items-center space-x-2 mb-3">
-                  <Users className="w-5 h-5 text-[#146785]" />
+                  <Users className="w-5 h-5 text-[#777C6D]" />
                   <span className="font-bold text-gray-900">
                     Guest Information
                   </span>
@@ -195,7 +191,7 @@ useEffect(() => {
               {/* Room Details */}
               <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 overflow-y-auto max-h-48">
                 <div className="flex items-center space-x-2 mb-3">
-                  <BedDouble className="w-5 h-5 text-[#146785]" />
+                  <BedDouble className="w-5 h-5 text-[#777C6D]" />
                   <span className="font-semibold text-gray-900">
                     Room Details
                   </span>
@@ -220,9 +216,9 @@ useEffect(() => {
 
               {/* Price & Actions */}
               <div className="flex flex-col justify-between h-full">
-                <div className="bg-[#146785] text-white rounded-xl p-5 mb-4">
+                <div className="bg-[#777C6D] text-white rounded-xl p-5 mb-4">
                   <div className="flex items-center space-x-3 mb-2">
-                    <DollarSign className="w-6 h-6" />
+                   
                     <span className="text-lg font-semibold">Total Amount</span>
                   </div>
                   <p className="text-3xl font-bold">
@@ -234,7 +230,7 @@ useEffect(() => {
                   <button
                     onClick={() => handleCancelClick(booking.bookingId)}
                     disabled={cancelling === booking.bookingId}
-                    className="w-full bg-red-500 hover:bg-red-600 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center space-x-2 transition-all"
+                    className="w-full bg-red-500 text-white font-semibold py-3 px-6 rounded-[5px] flex items-center justify-center space-x-1  cursor-pointer"
                   >
                     {cancelling === booking.bookingId ? (
                       <>

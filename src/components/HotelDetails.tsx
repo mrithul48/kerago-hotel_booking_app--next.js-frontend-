@@ -1,11 +1,13 @@
 "use client";
 
-import Image from 'next/image';
-import { MapPin, Star, Wifi, Coffee, Utensils, Car } from 'lucide-react';
-import { Hotels } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import Image from "next/image";
+import { Hotels } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { amenitiesList, hotelRoom, roomDescription } from "@/lib/data";
+import HotelPolicies from "./HotelPolicies";
+import RatingsAndReviews from "./RatingAndReviews";
+import BookingDetails from "./BookingComponent";
 
 interface HotelDetailsProps {
   hotelDetails: Hotels[];
@@ -14,29 +16,35 @@ interface HotelDetailsProps {
 const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
-  const router = useRouter();
+  const [showBookingPopup, setShowBookingPopup] = useState<boolean>(false);
+  const [selectedHotelId, setSelectedHotelId] = useState<number | null>(null);
+  const [selectedRoomType, setSelectedRoomType] = useState<string>("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token); // FIXED: Removed the ! operator
+    setIsAuthenticated(!!token);
   }, []);
 
   const handleBooking = (hotelId: number, roomTypes: string) => {
     if (!isAuthenticated) {
-      // User is NOT authenticated → show warning
       setShowWarning(true);
       setTimeout(() => setShowWarning(false), 3000);
     } else {
-      // User IS authenticated → proceed to booking page
-      router.push(`/client/booking?hotelId=${hotelId}&type=${roomTypes}`);
+      setSelectedHotelId(hotelId);
+      setSelectedRoomType(roomTypes);
+      setShowBookingPopup(true);
     }
   };
 
-  const defaultAmenities = ['Wifi', 'Parking', 'Restaurant', 'Coffee'];
+  const closeBookingPopup = () => {
+    setShowBookingPopup(false);
+    setSelectedHotelId(null);
+    setSelectedRoomType("");
+  };
 
   return (
-    <div className="mx-auto pt-20 z-50 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      {/* Animated Login Warning */}
+    <div className="pt-15 z-50 bg-[#EEEEEE]">
+      {/* 🔒 Animated Login Warning */}
       <AnimatePresence>
         {showWarning && (
           <motion.div
@@ -46,124 +54,204 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-red-500 to-red-600 border border-red-400 text-white px-6 py-4 rounded-xl shadow-2xl z-50 font-semibold backdrop-blur-md"
           >
-            🔒 Please login to continue booking
+             Please login to continue booking
           </motion.div>
         )}
       </AnimatePresence>
 
-      {hotelDetails.map((hotel, hotelIndex) => (
-        <div key={hotelIndex}>
-          {/* Image and Details */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 md:gap-5 md:p-8 px-5 py-8">
-            {/* Image Gallery */}
-            <div className="relative h-50 lg:h-[280px] rounded-3xl overflow-hidden group shadow-2xl">
-              <div className="grid grid-cols-2 grid-rows-2 gap-3 h-full">
-                {hotel.imageList.slice(0, 4).map((img, imgIndex) => (
-                  <div
-                    key={img.id}
-                    className={`relative overflow-hidden rounded-2xl group/img cursor-pointer ${
-                      imgIndex === 0 ? 'col-span-2 row-span-2' : ''
-                    }`}
-                  >
-                    <Image
-                      src={img.url}
-                      alt={`${hotel.name} - Image ${imgIndex + 1}`}
-                      fill
-                      className="object-cover group-hover/img:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent rounded-3xl"></div>
-            </div>
-
-            {/* Hotel Information */}
-            <div className="flex flex-col justify-between lg:col-span-2">
-              <div className="bg-gradient-to-br from-slate-700/50 to-slate-800/30 backdrop-blur-md rounded-3xl p-8 border border-slate-600/50 shadow-xl">
-                <h2 className="font-black text-3xl text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500 tracking-tight mb-4">
-                  {hotel.name.toUpperCase()}
-                </h2>
-                <div className="flex items-center text-slate-200 mb-4">
-                  <MapPin className="w-5 h-5 text-amber-400 mr-2" />
-                  <span className="font-medium text-sm">📍 {hotel.location}</span>
+      {/* 🏨 Hotel Content */}
+      <div className="grid grid-cols-12">
+        <div className="col-span-12 overflow-y-scroll">
+          {hotelDetails.map((hotel, hotelIndex) => (
+            <div key={hotelIndex}>
+              {/* Hotel Images */}
+              <div className="flex max-h-[300px]">
+                <div>
+                  {hotel.imageList.map((img, index) => (
+                    <div key={index}>
+                      <Image
+                        src={img.url}
+                        alt={`${hotel.name}`}
+                        className="h-[250px] object-fill"
+                        height={1000}
+                        width={1000}
+                      />
+                    </div>
+                  ))}
                 </div>
 
-                <p className="text-slate-300 mb-6 leading-relaxed text-base font-light">
-                  {hotel.description}
-                </p>
+                <div className="flex space-y-1">
+                  {hotelRoom.map((img, index) => (
+                    <div key={index}>
+                      <Image
+                        src={img.image}
+                        alt={img.title}
+                        className="h-[250px] object-fill"
+                        height={1000}
+                        width={1000}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Hotel Info */}
+              <div className="px-20 py-5 grid gap-8">
+                <div className="flex justify-between">
+                  <div>
+                    <h1 className="text-[35px] font-bold">{hotel.name}</h1>
+                    <p>{hotel.location}</p>
+                  </div>
+                  <div>
+                    <span className="bg-green-500 px-2 py-1 text-[12px] text-white rounded-[2px] font-bold">
+                      4.4 rating
+                    </span>
+                  </div>
+                </div>
 
                 {/* Amenities */}
-                <div className="flex flex-wrap gap-3">
-                  {(hotel.amenities || defaultAmenities).map((amenity, i) => {
-                    const icons = {
-                      Wifi: <Wifi className="w-4 h-4" />,
-                      Parking: <Car className="w-4 h-4" />,
-                      Restaurant: <Utensils className="w-4 h-4" />,
-                      Coffee: <Coffee className="w-4 h-4" />,
-                    };
-                    return (
-                      <div
-                        key={i}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 rounded-full text-xs font-semibold shadow-lg border border-amber-500/30 hover:shadow-xl hover:from-amber-500/30 hover:to-amber-600/30 transition-all backdrop-blur-sm"
-                      >
-                        {icons[amenity as keyof typeof icons] || <Star className="w-4 h-4" />}
-                        {amenity}
-                      </div>
-                    );
-                  })}
+                <h1 className="text-[25px] font-bold">Amenities</h1>
+                <div className="grid grid-cols-2 sm:grid-cols-3 justify-center gap-y-5 gap-x-10">
+                  {amenitiesList.map(({ title, icon: Icon }) => (
+                    <div
+                      key={title}
+                      className="flex items-center text-center gap-3 text-gray-800"
+                    >
+                      <Icon className="w-5 h-5 text-gray-700" />
+                      <span className="text-sm font-medium">{title}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* About */}
+                <div>
+                  <h1 className="text-[25px] font-bold">About Kerago</h1>
+                  <p className="text-sm text-gray-700 leading-7">
+                    Kerago is a modern hotel booking platform designed to make
+                    travel effortless and smart. We connect travelers with
+                    trusted hotels, offering real-time availability, transparent
+                    pricing, and seamless booking experiences. Our mission is to
+                    simplify hotel management for partners while providing
+                    guests with comfort, convenience, and reliability at every
+                    stay.
+                  </p>
+                </div>
+
+                {/* Rooms */}
+                <div>
+                  <h1 className="text-[25px] font-bold">Choose your Room</h1>
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    {hotel.room.map((item, index) => {
+                      const matchedImage = hotelRoom.find(
+                        (img) => img.title === item.roomTypes
+                      );
+                      const matchedHotelRoom = roomDescription.find(
+                        (dec) => dec.name == item.roomTypes
+                      );
+                      return (
+                        <div
+                          key={index}
+                          className="border border-gray-300 rounded-[5px] grid gap-1"
+                        >
+                          <h1 className="text-[12px] bg-gray-500 text-white px-5 py-2 h-10">
+                            SELECTED CATEGORY
+                          </h1>
+                          <div className="flex justify-between p-5 border-b border-gray-300">
+                            <div className="gap-2 h-fit items-center">
+                              <h3 className="font-semibold flex items-center gap-2">
+                                {item.roomTypes}
+                                <span className="text-[10px] bg-green-500 px-2 py-1 font-semibold rounded-2xl h-fit">
+                                  available {item.roomAvailableQuantity}
+                                </span>
+                              </h3>
+                              {matchedHotelRoom && (
+                                <p className="text-[15px] text-gray-500">
+                                  {matchedHotelRoom.description}
+                                </p>
+                              )}
+                            </div>
+
+                            {matchedImage && (
+                              <Image
+                                src={matchedImage.image}
+                                alt={matchedImage.title}
+                                width={150}
+                                height={150}
+                              />
+                            )}
+                          </div>
+                          <div className="flex justify-between p-5 items-center">
+                            <div>₹{item.pricePerNight}</div>
+                            <div className="px-2 py-1 text-white rounded-[2px] group">
+                              <button
+                                onClick={() =>
+                                  handleBooking(hotel.hotelId!, item.roomTypes)
+                                }
+                                disabled={item.roomAvailableQuantity === 0}
+                                className={`w-full py-2 px-2 rounded-[5px] cursor-pointer text-[10px] font-bold uppercase tracking-wide ${
+                                  item.roomAvailableQuantity === 0
+                                    ? "bg-[#75756a] cursor-not-allowed opacity-60"
+                                    : "bg-[#75756a] hover:bg-[#474745] text-white"
+                                }`}
+                              >
+                                {item.roomAvailableQuantity === 0
+                                  ? "Sold Out"
+                                  : "Book Now"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Reviews and Policies */}
+                <div>
+                  <RatingsAndReviews />
+                </div>
+
+                <div>
+                  <HotelPolicies />
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Rooms Section */}
-          <div className="px-5 md:px-8 pb-12 mt-8">
-            <h3 className="text-white mb-8 tracking-tight font-bold text-2xl">
-              🛏️ Available Rooms
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {hotel.room.map((room, roomIndex) => (
-                <div
-                  key={roomIndex}
-                  className="group border border-slate-600/50 rounded-2xl p-5 hover:shadow-2xl hover:border-amber-400/70 transition-all duration-300 backdrop-blur-sm bg-gradient-to-br from-slate-700/40 to-slate-800/40 hover:from-slate-700/60 hover:to-slate-800/60"
-                >
-                  <div className="mb-5">
-                    <h4 className="font-bold text-lg text-white mb-2 group-hover:text-amber-300 transition-colors">
-                      {room.roomTypes}
-                    </h4>
-                    <div className="flex items-center gap-2 text-sm">
-                      <span className="px-4 py-1.5 bg-gradient-to-r from-emerald-500/30 to-emerald-600/30 text-emerald-300 rounded-full font-semibold border border-emerald-500/30 backdrop-blur-sm">
-                        {room.roomAvailableQuantity} Available
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-black text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">
-                        ₹{room.pricePerNight.toLocaleString()}
-                      </span>
-                      <span className="text-slate-400 text-sm font-medium">/night</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => handleBooking(hotel.hotelId!, room.roomTypes)}
-                    disabled={room.roomAvailableQuantity === 0}
-                    className={`w-full py-3.5 px-6 rounded-xl font-bold transition-all duration-300 cursor-pointer text-sm uppercase tracking-wide ${
-                      room.roomAvailableQuantity === 0
-                        ? 'bg-slate-600 text-slate-400 cursor-not-allowed opacity-60'
-                        : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white shadow-lg hover:shadow-2xl transform hover:-translate-y-1 active:translate-y-0'
-                    }`}
-                  >
-                    {room.roomAvailableQuantity === 0 ? '❌ Sold Out' : '🔖 Book Now'}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
-      ))}
+      </div>
+
+      {/* 🧾 Booking Popup */}
+      <AnimatePresence>
+        {showBookingPopup && selectedHotelId && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-lg shadow-xl w-full max-w-3xl relative overflow-y-auto max-h-[90vh]"
+            >
+              <button
+                onClick={closeBookingPopup}
+                className="absolute top-3 right-3 text-gray-600 hover:text-black text-lg font-bold"
+              >
+                ✕
+              </button>
+              <BookingDetails
+                hotelId={selectedHotelId}
+                type={selectedRoomType}
+                onSubmit={closeBookingPopup}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

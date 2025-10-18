@@ -1,9 +1,9 @@
-
 "use client";
 
 import { useState } from "react";
 import Login from "./LoginModel";
 import Register from "./RegisterModel";
+
 
 type ModalType = "login" | "register" | null;
 
@@ -26,7 +26,9 @@ export default function AuthModal() {
         )}
 
         {openModal === "register" && (
-          <Register onClose={() => setOpenModal("login")} />
+          <Register onClose={() => setOpenModal("login")} 
+          
+          />
         )}
       </div>
     </div>

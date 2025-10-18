@@ -1,5 +1,5 @@
 // import { RegisterForm } from "@/components/auth/RegisterForm";
-import { RegisterForm } from "@/components/ui/RegisterModel";
+import { RegisterForm } from "@/components/auth/RegisterModel";
 import { api } from "@/lib/api";
 
 export const authService = {

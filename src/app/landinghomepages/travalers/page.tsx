@@ -7,7 +7,9 @@ const TravalersPage = () => {
   return (
     <div>
       <LandingHeader/>
-        <TravelersSection/>
+      <div className='pt-10'>
+         <TravelersSection/>
+      </div>
         <Footer/>
     </div>
   )

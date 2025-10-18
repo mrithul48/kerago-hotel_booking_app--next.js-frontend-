@@ -35,6 +35,7 @@ export default function Register({ onClose }: RegisterProps) {
     try {
       await authService.register(userRegister);
       setSuccess(true);
+
     } catch (err) {
       console.error(err);
       alert("Error connecting to server.");
@@ -54,15 +55,20 @@ export default function Register({ onClose }: RegisterProps) {
       </button>
 
       {success ? (
-        <div className="text-center">
-          <h2 className="text-xl font-bold mb-2">Registration Successful 🎉</h2>
-          <p className="text-gray-300 mb-4">Please login to continue.</p>
-          <button
-            onClick={onClose}
-            className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md font-semibold"
-          >
-            Continue
-          </button>
+        <div className="text-center w-[550px] h-[150px] grid">
+          <div>
+            <h2 className="text-xl text-black font-bold mb-2">Registration Successful 🎉</h2>
+            <p className="text-gray-700 mb-4 text-[13px]">Please login to continue.</p>
+          </div>
+          <div>
+            <button
+              onClick={onClose}
+              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md font-semibold cursor-pointer"
+            >
+              Continue
+            </button>
+          </div>
+
         </div>
       ) : (
         <div className="sm:h-[350px]  sm:w-[500px] w-[300px]">

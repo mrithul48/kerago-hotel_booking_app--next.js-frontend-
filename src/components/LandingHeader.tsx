@@ -13,8 +13,9 @@ import {
   LogIn,
   FilePen,
 } from "lucide-react";
-import AuthModal from "./ui/authModel";
-import Register from "./ui/RegisterModel";
+
+import Register from "./auth/RegisterModel";
+import AuthModal from "./auth/authModel";
 
 interface MenuType {
   title: string;
@@ -22,23 +23,25 @@ interface MenuType {
   icon: LucideIcon;
 }
 
+
+
 const menuList: MenuType[] = [
   { title: "Home", url: "/", icon: Hotel },
   { title: "Hotels", url: "/client/hotel", icon: House },
-  { title: "About", url: "/about", icon: Book },
-  { title: "Contact", url: "/contact", icon: Contact },
+  { title: "Travelers", url: "/landinghomepages/travalers", icon: Book },
+  { title: "Partners", url: "/landinghomepages/partners", icon: Contact },
 ];
+
+  
 
 export default function Header() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [showRegister, setRegister] = useState(false);
-
   return (
     <>
       <header className="fixed top-0 w-full bg-[#EEEEEE] shadow z-40">
         <div className="flex justify-between items-center px-5 py-4">
-          {/* Logo */}
           <Link
             href="/"
             className="text-[18px] font-bold text-black hover:text-[#65655c]"
@@ -148,7 +151,9 @@ export default function Header() {
           onClick={() => setRegister(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
-            <Register onClose={() => setRegister(false)} />
+            <Register onClose={() => setRegister(false)} 
+             
+              />
           </div>
         </div>
       )}
