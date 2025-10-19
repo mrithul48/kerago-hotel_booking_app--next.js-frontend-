@@ -1,12 +1,8 @@
-
-
-
 "use client";
 
 import Image from "next/image";
 import { Hotels } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 import HotelFilters from "./FilterBox";
 import AmenitiesSection from "./AmenitiesSection";
 
@@ -15,7 +11,7 @@ interface HotelCardProps {
 }
 
 const HotelCard: React.FC<HotelCardProps> = ({ hotelData }: HotelCardProps) => {
-const [loading,setLoading] = useState<boolean>();
+
 
   const router = useRouter();
   const gotoDetailsPage = (id: number) => {

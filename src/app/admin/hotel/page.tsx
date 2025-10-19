@@ -161,11 +161,14 @@ const AdminHotelControl: React.FC = () => {
         alert("No hotel selected for update!");
         return;
       }
-      // Remove imagesList and roomId from rooms
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const {hotelId,imageList, ...rest } = hotelForm;
-      // Remove roomId from each room object
+
+     
       const updateData = {
         ...rest,
+         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         room: rest.room.map(({ roomId, ...roomData }) => roomData)
       };
 
