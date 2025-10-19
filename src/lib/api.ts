@@ -1,11 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig} from "axios";
-// Extend AxiosRequestConfig to allow _retry flag
-// interface AxiosRequestConfigWithRetry extends AxiosRequestConfig {
-//   _retry?: boolean;
-// }
-// import { error } from "console";
 
-// Create axios instance
 const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/v1";
 console.log(" API Base URL:", baseURL); 
 export const api = axios.create({
@@ -42,53 +36,6 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-
-// Automatically refresh token if 401 Unauthorized
-
-// api.interceptors.response.use(
-//   (response)=>response,
-//   async(error:AxiosError)=>{
-//     const originalRequest = error.config as AxiosRequestConfigWithRetry;
-
-
-//     //only retry once
-//     if(error.response?.status=== 401 && !originalRequest._retry){
-//       originalRequest._retry=true;
-
-//       try{
-//         const refreshToken = localStorage.getItem("refreshToken");
-//         if(!refreshToken){
-//           // No refresh token → force logout
-//            localStorage.removeItem("token");
-//            localStorage.removeItem("refreshToken");
-//            window.location.href = "/";
-//            return Promise.reject(error);
-
-//         }
-//          // Call backend refresh endpoint
-//          const res = await api.post("auth/refresh",{refreshToken,});
-//          const newAccessToken = res.data.accessToken;
-
-//          // Save new access token
-//         localStorage.setItem("token", newAccessToken);
-
-//          // Update failed request headers and retry
-//         if (originalRequest.headers) {
-//           originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-//         }
-//         return api(originalRequest);
-//       }catch(refreshError){
-//         console.error("Refresh token expired or invalid");
-//         localStorage.removeItem("token");
-//         localStorage.removeItem("refreshToken");
-//         window.location.href = "/";
-//         return Promise.reject(refreshError);
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// )
 
 // Response interceptor (handle errors globally)
 api.interceptors.response.use(

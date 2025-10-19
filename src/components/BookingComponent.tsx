@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { formatDateToDDMMYYYY } from "@/lib/utils";
 import { bookingService } from "@/service/bookingService";
+import Link from "next/link";
 
 interface RoomSelection {
   roomTypes: string;
@@ -34,6 +35,8 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
   const [roomQuantity, setRoomQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [success,setSuccess] =  useState(false);
+  
 
   const handleBooking = async () => {
     if (!checkIn || !checkOut) {
@@ -54,21 +57,47 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
       ],
     };
 
-    try {
-      setLoading(true);
-      await bookingService.booking(bookingRequest);
-      setMessage("Booking successful ✅");
+     setLoading(true);
+     setMessage("");
 
-      if (onSubmit) onSubmit(bookingRequest); // close popup
+    try {
+      
+     const response = await bookingService.booking(bookingRequest);
+       if (response && response.success !== false) {
+      setSuccess(true); // ✅ set success here
+      setMessage("Booking successful");
+    } else {
+      setMessage("Booking failed");
+      setSuccess(false);
+       if (onSubmit) onSubmit(bookingRequest);
+    }
+
+      // if (onSubmit) onSubmit(bookingRequest); // close popup
     } catch (error) {
-      setMessage("Booking failed ❌");
+      setMessage("Booking failed");
       console.error(error);
     } finally {
       setLoading(false);
+      
     }
   };
 
+ 
+
   return (
+    <>
+    {success? (
+          <div className="text-center w-full  h-[150px] grid">
+          <div className="flex flex-col justify-center">
+            <h2 className="text-xl text-black font-bold mb-2">Booking Successful</h2>
+            <p className="text-gray-700 mb-4 text-[13px]">Please check your email </p>
+          </div>
+          <div>
+            <Link className="bg-[#72756c] hover:bg-[#484946] text-white text-[12px] px-2 py-2 rounded-[5px]" href={"/client/hotel"}>Go to home page</Link>
+          </div>
+
+        </div>
+    ):(
     <div className="p-6 space-y-5">
       <h2 className="text-xl font-semibold border-b pb-2 text-gray-800">
         Booking Details
@@ -150,6 +179,8 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
         </p>
       )}
     </div>
+    )}
+    </>
   );
 };
 

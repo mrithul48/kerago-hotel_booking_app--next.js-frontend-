@@ -33,13 +33,8 @@ export const fetchHotels = createAsyncThunk(
   }
 );
 
-//update hotel
-// export const updateHotel = createAsyncThunk(
-//  "hotel/update",
-//  async({id,data}:{id:number; data:Partial<Hotels>})=>{
-//      return await hotelService.updateHotel(id,data)
-//  }
-// );
+// update hotel
+
 
 //delete hotel
 export const deleteHotel = createAsyncThunk(
@@ -70,26 +65,7 @@ export const hotelSlice = createSlice({
         state.error = action.error.message || "failed to fetch error";
       });
 
-      //update 
-
-      // builder
-      // .addCase(updateHotel.pending,(state)=>{
-      //   state.loading = true;
-      //   state.error = null;
-      // })
-      // .addCase(updateHotel.fulfilled,(state,action)=>{
-      //   state.loading=false;
-      //   const index = state.hotel.findIndex((h)=>h.hotelId===action.payload.id);
-      //   if(index!==-1){
-      //       state.hotel[index] = action.payload;
-      //   }else{
-      //       state.hotel.push(action.payload);
-      //   }
-      // })
-      // .addCase(updateHotel.rejected,(state,action)=>{
-      //   state.loading=false;
-      //   state.error=action.error.message||"failed to update hotel"
-      // });
+    
 
       //delete
 

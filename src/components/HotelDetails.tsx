@@ -19,6 +19,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
   const [showBookingPopup, setShowBookingPopup] = useState<boolean>(false);
   const [selectedHotelId, setSelectedHotelId] = useState<number | null>(null);
   const [selectedRoomType, setSelectedRoomType] = useState<string>("");
+ 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -63,16 +64,16 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
       <div className="grid grid-cols-12">
         <div className="col-span-12 overflow-y-scroll">
           {hotelDetails.map((hotel, hotelIndex) => (
-            <div key={hotelIndex}>
+            <div key={hotelIndex} className="p-2">
               {/* Hotel Images */}
-              <div className="flex max-h-[300px]">
+              <div className="sm:flex gap-3 sm:gap-2  sm:max-h-[300px]">
                 <div>
                   {hotel.imageList.map((img, index) => (
                     <div key={index}>
                       <Image
                         src={img.url}
                         alt={`${hotel.name}`}
-                        className="h-[250px] object-fill"
+                        className="sm:h-[250px] object-fill"
                         height={1000}
                         width={1000}
                       />
@@ -80,13 +81,13 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
                   ))}
                 </div>
 
-                <div className="flex space-y-1">
+                <div className="flex sm:gap-3 gap-1 p-1 space-y-1">
                   {hotelRoom.map((img, index) => (
                     <div key={index}>
                       <Image
                         src={img.image}
                         alt={img.title}
-                        className="h-[250px] object-fill"
+                        className="sm:h-[250px] object-fill"
                         height={1000}
                         width={1000}
                       />
@@ -96,10 +97,10 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
               </div>
 
               {/* Hotel Info */}
-              <div className="px-20 py-5 grid gap-8">
+              <div className="sm:px-20 px-2 py-5 grid gap-8">
                 <div className="flex justify-between">
                   <div>
-                    <h1 className="text-[35px] font-bold">{hotel.name}</h1>
+                    <h1 className="sm:text-[35px] text-[25px] font-bold">{hotel.name}</h1>
                     <p>{hotel.location}</p>
                   </div>
                   <div>
@@ -110,7 +111,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
                 </div>
 
                 {/* Amenities */}
-                <h1 className="text-[25px] font-bold">Amenities</h1>
+                <h1 className="sm:text-[25px] text-[20px] font-bold">Amenities</h1>
                 <div className="grid grid-cols-2 sm:grid-cols-3 justify-center gap-y-5 gap-x-10">
                   {amenitiesList.map(({ title, icon: Icon }) => (
                     <div
@@ -125,7 +126,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
 
                 {/* About */}
                 <div>
-                  <h1 className="text-[25px] font-bold">About Kerago</h1>
+                  <h1 className="sm:text-[25px] text-[20px] font-bold">About Kerago</h1>
                   <p className="text-sm text-gray-700 leading-7">
                     Kerago is a modern hotel booking platform designed to make
                     travel effortless and smart. We connect travelers with
@@ -139,7 +140,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
 
                 {/* Rooms */}
                 <div>
-                  <h1 className="text-[25px] font-bold">Choose your Room</h1>
+                  <h1 className="sm:text-[25px] text-[20px] font-bold mb-1">Choose your Room</h1>
                   <div className="grid sm:grid-cols-2 gap-5">
                     {hotel.room.map((item, index) => {
                       const matchedImage = hotelRoom.find(
@@ -153,7 +154,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
                           key={index}
                           className="border border-gray-300 rounded-[5px] grid gap-1"
                         >
-                          <h1 className="text-[12px] bg-gray-500 text-white px-5 py-2 h-10">
+                          <h1 className="text-[12px] bg-gray-500 text-white px-5 py-2 sm:h-10">
                             SELECTED CATEGORY
                           </h1>
                           <div className="flex justify-between p-5 border-b border-gray-300">
@@ -165,7 +166,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
                                 </span>
                               </h3>
                               {matchedHotelRoom && (
-                                <p className="text-[15px] text-gray-500">
+                                <p className="sm:text-[15px] text-[12px] text-gray-500">
                                   {matchedHotelRoom.description}
                                 </p>
                               )}
@@ -228,7 +229,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ hotelDetails }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center p-2 justify-center bg-black/50 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}

@@ -40,7 +40,7 @@ const RatingsAndReviews = () => {
   ];
 
   return (
-    <div className="w-full border border-gray-200 rounded-lg p-6 ">
+    <div className="w-full border border-gray-200 rounded-lg sm:p-6 ">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Ratings and Reviews</h2>
 
       {/* Overall Rating Section */}

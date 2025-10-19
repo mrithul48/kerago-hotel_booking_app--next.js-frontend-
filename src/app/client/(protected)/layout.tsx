@@ -11,10 +11,8 @@ interface UserLayoutProps {
 const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
   return (
     <ProtectedRoute role="ROLE_USER">
-    
       <Header />
       <main>{children}</main>
-   
     </ProtectedRoute>
   );
 };

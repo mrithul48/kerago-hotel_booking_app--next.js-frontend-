@@ -10,6 +10,7 @@ import {
   X,
 } from "lucide-react";
 import { bookingService } from "@/service/bookingService";
+import Loading from "@/components/Loading";
 
 interface Room {
   id: number;
@@ -101,17 +102,10 @@ useEffect(() => {
         return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-600"></div>
-      </div>
-    );
-  }
-
   return (
-    <div className="     pt-20">
+    <>
+    <Loading loading={loading}/>
+    <div className="pt-20">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-black mb-2">
@@ -258,5 +252,6 @@ useEffect(() => {
       </div>
 
     </div>
+    </>
   );
 }

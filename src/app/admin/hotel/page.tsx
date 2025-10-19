@@ -19,7 +19,7 @@ export interface HotelDataUpdateProps {
   room: Room[];
 }
 
-export interface ImagesList {
+export interface ImageList {
   id: number;
   url: string;
 }
@@ -30,7 +30,7 @@ export interface HotelProps {
   location: string;
   description: string;
   room: Room[];
-  imagesList: ImagesList[];
+  imageList: ImageList[];
 }
 
 export type HotelRequestData = Omit<HotelProps, "hotelId">;
@@ -41,7 +41,7 @@ const AdminHotelControl: React.FC = () => {
     location: "",
     description: "",
     room: [],
-    imagesList: [],
+    imageList: [],
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -74,12 +74,12 @@ const AdminHotelControl: React.FC = () => {
     const updatedRooms = hotelForm.room.map((room) =>
       room.roomId === roomId
         ? {
-            ...room,
-            [field]:
-              field === "pricePerNight" || field === "roomAvailableQuantity"
-                ? Number(value)
-                : String(value),
-          }
+          ...room,
+          [field]:
+            field === "pricePerNight" || field === "roomAvailableQuantity"
+              ? Number(value)
+              : String(value),
+        }
         : room
     );
     setHotelForm({ ...hotelForm, room: updatedRooms });
@@ -110,8 +110,8 @@ const AdminHotelControl: React.FC = () => {
   const handleCreate = async () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { imagesList, ...hotelDataToSend } = hotelForm;
-            
+      const { imageList, ...hotelDataToSend } = hotelForm;
+
 
       await hotelService.registerHotel(
         hotelDataToSend as HotelRequestData,
@@ -125,7 +125,7 @@ const AdminHotelControl: React.FC = () => {
         location: "",
         description: "",
         room: [],
-        imagesList: [],
+        imageList: [],
       });
 
       setShowSuccess(true);
@@ -161,18 +161,19 @@ const AdminHotelControl: React.FC = () => {
         alert("No hotel selected for update!");
         return;
       }
+      // Remove imagesList and roomId from rooms
+      const {hotelId,imageList, ...rest } = hotelForm;
+      // Remove roomId from each room object
+      const updateData = {
+        ...rest,
+        room: rest.room.map(({ roomId, ...roomData }) => roomData)
+      };
 
-      // const hotelDataToSend: HotelDataUpdateProps = {
-      //   name: hotelForm.name,
-      //   location: hotelForm.location,
-      //   description: hotelForm.description,
-      //   room: hotelForm.room.map((r) => ({
-      //     roomTypes: r.roomTypes,
-      //     roomAvailableQuantity: r.roomAvailableQuantity,
-      //     pricePerNight: r.pricePerNight,
-      //   })),
-      // };
-
+      console.log("--------hotelform", hotelForm);
+      console.log("-----------updated data", updateData);
+      console.log("-----------id", hotelForm.hotelId);
+      // Call your API first
+      await hotelService.updateHotel(hotelForm.hotelId, updateData);
       setHotels(
         hotels.map((h) =>
           h.hotelId === hotelForm.hotelId ? hotelForm : h
@@ -184,10 +185,9 @@ const AdminHotelControl: React.FC = () => {
         location: "",
         description: "",
         room: [],
-        imagesList: [],
+        imageList: [],
       });
       setSelectedHotel(null);
-
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
       setShowForm(false);
@@ -197,6 +197,9 @@ const AdminHotelControl: React.FC = () => {
     }
   };
 
+
+
+  //cancel 
   const handleCancel = () => {
     setShowForm(false);
     setSelectedHotel(null);
@@ -205,7 +208,7 @@ const AdminHotelControl: React.FC = () => {
       location: "",
       description: "",
       room: [],
-      imagesList: [],
+      imageList: [],
     });
     setImageFile(null);
   };
@@ -257,7 +260,7 @@ const AdminHotelControl: React.FC = () => {
                   location: "",
                   description: "",
                   room: [],
-                  imagesList: [],
+                  imageList: [],
                 });
               }}
               className="flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl"

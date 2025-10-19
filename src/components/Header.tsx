@@ -60,9 +60,7 @@ const Header = () => {
           </div>
           <div className='hidden md:flex items-center gap-3'>
             <div>
-               <Link href={"/admin/profile"} 
-               className='text-black hover:text-[#3d3d37]'
-               ><CircleUserRound size={20}/></Link>
+              <CircleUserRound size={20}/>
             </div>
             <div>
                  <button
@@ -95,12 +93,6 @@ const Header = () => {
               {item.title}
             </Link>
           ))}
-
-           <div className='flex w-full'>
-                <Link href={"/admin/profile"} 
-               className='text-black px-5 py-4 rounded-[3] hover:bg-[#8d8d86] w-full text-start    cursor-pointer '
-               >Profile</Link>
-          </div>
           <button
             onClick={handleClick}
             className=" text-black px-5 py-4 rounded-[3] hover:bg-[#8d8d86] w-full text-start    cursor-pointer "

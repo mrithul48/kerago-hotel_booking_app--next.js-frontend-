@@ -6,15 +6,9 @@ import Hotel from './hotel/page'
 
 const UserHome = () => {
   return (
-   
-     
     <div>
-
     <Hotel/>
-
-    
     </div>
-
   )
 }
 

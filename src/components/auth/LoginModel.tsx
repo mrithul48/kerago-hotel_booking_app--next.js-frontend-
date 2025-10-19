@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { authService } from "@/service/authService";
 import { useRouter } from "next/navigation";
+import Loading from "../Loading";
 
 interface LoginResponse {
   token: string;
@@ -21,6 +22,8 @@ export default function Login({ onOpenRegister, onClose }: LoginProps) {
   const [password, setPassword] = useState<string>("");
   const [showPass, setShowPass] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+    const [loading, setLoading] = useState(false);
+  
 
   const router = useRouter();
 
@@ -33,10 +36,11 @@ export default function Login({ onOpenRegister, onClose }: LoginProps) {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     try {
       const res: LoginResponse = await authService.login(username, password);
-
+      
       // Store tokens
       localStorage.setItem("token", res.token);
       localStorage.setItem("role", res.role);
@@ -45,18 +49,24 @@ export default function Login({ onOpenRegister, onClose }: LoginProps) {
 
       // Redirect based on role
       if (res.role === "ROLE_ADMIN") {
+       
         router.replace("/admin/dashboard");
       } else {
+       
         router.replace("/client/");
       }
     } catch (err: unknown) {
       setError("Invalid username or password. Please try again.");
       console.log(err);
       
+    }finally{
+      setLoading(false)
     }
   };
 
   return (
+    <>
+    <Loading loading={loading}/>
     <div className="bg-[#EEEEEE] shadow-lg text-white p-10 rounded-2xl w-[350px] relative">
       {/* Close Button */}
       <button
@@ -127,5 +137,6 @@ export default function Login({ onOpenRegister, onClose }: LoginProps) {
         </button>
       </p>
     </div>
+    </>
   );
 }
