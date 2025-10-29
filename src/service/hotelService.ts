@@ -48,6 +48,11 @@ export const hotelService = {
         });
         return res.data;
     },
+    //search
+    async search(search:string){
+       const res = await api.get(`v1/hotels/search?hotelname=${search}`)
+       return res.data
+    }
     
 };
 
