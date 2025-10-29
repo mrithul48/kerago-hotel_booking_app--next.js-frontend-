@@ -111,7 +111,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ hotelData }: HotelCardProps) => {
             </div>
           ) : hotels.length === 0 ? (
             <div className="flex justify-center items-center py-20">
-              <div className="text-gray-600">No hotels found</div>
+              <div className="text-gray-600"></div>
             </div>
           ) : (
             hotels.map((hotel) => (
